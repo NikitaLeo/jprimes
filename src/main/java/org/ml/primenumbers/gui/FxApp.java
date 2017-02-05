@@ -267,7 +267,8 @@ public class FxApp extends Application {
         Label label = new Label("Interval:");
         intervalValue = new Spinner<>();
         intervalValue.setId("interval");
-        intervalValue.setValueFactory(new AdaptiveSpinnerValueFactory(10000, 1000000, 100000));
+        intervalValue.setEditable(true);
+        intervalValue.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, 1000000));
         intervalValue.setTooltip(new Tooltip("Interval for test iterations"));
         GridPane.setConstraints(label, 0, 0);
         GridPane.setConstraints(intervalValue, 1, 0);
@@ -276,7 +277,8 @@ public class FxApp extends Application {
         Label label2 = new Label("Maximum:");
         maxValue = new Spinner<>();
         maxValue.setId("max");
-        maxValue.setValueFactory(new AdaptiveSpinnerValueFactory(100000, 10000000, 1000000));
+        maxValue.setEditable(true);
+        maxValue.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, 10000000));
         maxValue.setTooltip(new Tooltip("Maximum number of prime numbers to find during test"));
         GridPane.setConstraints(label2, 0, 1);
         GridPane.setConstraints(maxValue, 1, 1);
