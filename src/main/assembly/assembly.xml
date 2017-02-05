@@ -14,6 +14,9 @@
             </includes>
             <filtered>true</filtered>
         </fileSet>
+        <fileSet>
+            <directory>html</directory>
+        </fileSet>
     </fileSets>
     <dependencySets>
         <dependencySet>
