@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class AtkinSimple extends BaseAlgorithm {
 
-    int[] sieve;
+    private int[] sieve;
 
     private void toggle(int k) {
         sieve[k] = sieve[k] == 1 ? 0 : 1;

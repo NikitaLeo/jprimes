@@ -16,8 +16,8 @@ import java.util.Set;
  */
 public class AlgorithmFinder implements Runnable {
 
-    private List<Algorithm> algorithms = new ArrayList<>();
-    private Notifier callback;
+    private final List<Algorithm> algorithms = new ArrayList<>();
+    private final Notifier callback;
 
     public AlgorithmFinder(Notifier callback) {
         this.callback = callback;

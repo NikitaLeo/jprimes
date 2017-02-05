@@ -17,8 +17,8 @@ import org.ml.primenumbers.algorithm.impl.TrialDivision;
 public class AppTest {
 	
 	//private static List<Integer> correct = Arrays.asList(2,3,5,7,11,13,17,19);
-	private static int TEST_NUMBER = 100000;
-	private static int MUST_FOUND = 9592;
+	private static final int TEST_NUMBER = 100000;
+	private static final int MUST_FOUND = 9592;
 	
 	public AppTest() {
 
