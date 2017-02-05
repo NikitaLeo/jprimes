@@ -1,2 +1,2 @@
 # jprimes
-Prime number algorithms measuring
+Prime number algorithms measuring with Java
