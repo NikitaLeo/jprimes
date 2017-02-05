@@ -1,0 +1,16 @@
+target/
+
+# project specific
+**/*.js
+
+
+# Idea
+.idea/
+*.iml
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+

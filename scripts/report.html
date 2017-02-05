@@ -1,0 +1,35 @@
+<html>
+
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="result.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      // Define the chart to be drawn.
+      var data = new google.visualization.arrayToDataTable(result);
+      /*
+      data.addColumn('number', 'Element');
+      data.addColumn('number', 'Percentage');
+      */
+      //data.addRows(result.data);
+
+      // Instantiate and draw the chart.
+		var chart = new google.visualization.LineChart(document.getElementById('myPieChart'));
+		var options = {
+			width: 600,
+    		legend : {
+    			position: 'bottom'  
+    		  }
+      }
+      chart.draw(data, options)
+    }
+  </script>
+</head>
+<body>
+  <!-- Identify where the chart should be drawn. -->
+  <div id="myPieChart"/>
+</body>
+</html>

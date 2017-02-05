@@ -1,0 +1,6 @@
+.list-cell:odd,
+.list-cell:selected,
+.list-cell:even {
+    -fx-background-color: white;
+    -fx-text-fill: #333
+}
