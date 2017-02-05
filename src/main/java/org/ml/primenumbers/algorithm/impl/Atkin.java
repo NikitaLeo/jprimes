@@ -1,6 +1,7 @@
 package org.ml.primenumbers.algorithm.impl;
 
 import org.ml.primenumbers.algorithm.Algorithm;
+import org.ml.primenumbers.algorithm.BaseAlgorithm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * Created by Andrei on 05.02.2017.
  */
-public class Atkin implements Algorithm {
+public class Atkin extends BaseAlgorithm {
 
     private static final String NAME = "Atkin2";
     int[] sieve;
