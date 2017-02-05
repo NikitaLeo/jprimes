@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -38,12 +39,16 @@ public class FxApp extends Application {
     private AlgorithmFinder algorithmFinder;
     private ObservableList<AlgorithmItem> algorithms = FXCollections.observableArrayList();
 
-    private Notifier onListReady = () -> algorithms
-            .addAll(algorithmFinder.getList()
-                    .stream()
-                    .map((a) -> new AlgorithmItem(a))
-                    .collect(Collectors.toList()));
+    private Notifier onListReady = () -> {
 
+        List<AlgorithmItem> list = algorithmFinder.getList()
+                        .stream()
+                        .map((a) -> new AlgorithmItem(a))
+                        .collect(Collectors.toList());
+        list.sort((o1, o2) -> o1.getAlgorithm().getName().compareTo(o2.getAlgorithm().getName()));
+        algorithms.clear();
+        algorithms.addAll(list);
+    };
 
     private FileChooser fileChooser;
     private Stage stage;
