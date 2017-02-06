@@ -74,6 +74,7 @@ public class Atkin extends BaseAlgorithm {
         /**
          * Find all pairs (x,y) such that n mod 12 = 11 and x > y where n = 3x^2 - y^2
          */
+        /*
         max_x = (int) Math.floor( (Math.sqrt(8 * n + 12) - 2) / 4 );
         for (x = 1; x <= max_x; x++){
             int a = 3 * x * x;
@@ -86,6 +87,37 @@ public class Atkin extends BaseAlgorithm {
                 for (y = 4; y < x; y += 6) toggle(a - y * y);
             }
         }
+        */
+
+        int max = (int) Math.floor((Math.sqrt((double) (8 * n + 12)) - 6) / 4);
+        y = 1;
+        while (y <= max) {
+            int a = -y * y;
+            x = y + 1;
+            while (true) {
+                k = a + 3 * x * x;
+                if (k <= n) {
+                    toggle(k);
+                } else {
+                    break;
+                }
+                x += 2;
+            }
+            y++;
+            a = -y * y;
+            x = y + 1;
+            while (true) {
+                k = a + 3 * x * x;
+                if (k <= n) {
+                    toggle(k);
+                } else {
+                    break;
+                }
+                x += 2;
+            }
+            y += 2;
+        }
+
 
         /**
          * For all numbers n which can be divided by some square number set sieve[n] = 0
