@@ -14,8 +14,12 @@ public class Atkin extends BaseAlgorithm {
     private static final String NAME = "Atkin2";
     private int[] sieve;
 
-    private void toggle(int k) {
-        if(k < sieve.length) sieve[k] = sieve[k] == 1 ? 0 : 1;
+    private boolean toggle(int k) {
+        if (k < sieve.length) {
+            sieve[k] = sieve[k] == 1 ? 0 : 1;
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -37,7 +41,8 @@ public class Atkin extends BaseAlgorithm {
 
         int max_x = (int)Math.floor( Math.sqrt(n) / 2 );
         int max_y = (int)Math.floor( Math.sqrt(n) );
-
+        System.out.println("max_y = " + max_y);
+        int max = 0;
         /**
          *
          * Find all pairs x, y where
@@ -50,11 +55,11 @@ public class Atkin extends BaseAlgorithm {
             int a = 4 * x * x;
 
             if (x % 3 == 0) {
-                for (y = 1; y <= max_y; y += 6) toggle(a + y * y);
-                for (y = 5; y <= max_y; y += 6) toggle(a + y * y);
+                for (y = 1; toggle(a + y * y); y += 6) ;
+                for (y = 5; toggle(a + y * y); y += 6) ;
 
             } else {
-                for (y = 1; y <= max_y; y += 2) toggle(a + y * y);
+                for (y = 1; toggle(a + y * y); y += 2) ;
             }
             x++;
         }
@@ -67,55 +72,26 @@ public class Atkin extends BaseAlgorithm {
          */
         for (x = 1; x <= max_x; x += 2) {
             int a = 3 * x * x;
-            for (y = 2; y < max_y; y += 6) toggle(a + y * y);
-            for (y = 4; y < max_y; y += 6) toggle(a + y * y);
+
+            for (y = 2; toggle(a + y * y); y += 6) ;
+            for (y = 4; toggle(a + y * y); y += 6) ;
+
         }
 
         /**
          * Find all pairs (x,y) such that n mod 12 = 11 and x > y where n = 3x^2 - y^2
          */
-        /*
         max_x = (int) Math.floor( (Math.sqrt(8 * n + 12) - 2) / 4 );
         for (x = 1; x <= max_x; x++){
             int a = 3 * x * x;
             if (x % 2 == 0) {
-                for (y = 1; y < x; y += 6) toggle(a - y * y);
-                for (y = 5; y < x; y += 6) toggle(a - y * y);
+                for (y = 1; y < x ; y += 6) toggle(a - y * y);
+                for (y = 5; y < x ; y += 6) toggle(a - y * y);
 
             } else {
-                for (y = 2; y < x; y += 6) toggle(a - y * y);
-                for (y = 4; y < x; y += 6) toggle(a - y * y);
+                for (y = 2; y < x ; y += 6) toggle(a - y * y);
+                for (y = 4; y < x ; y += 6) toggle(a - y * y);
             }
-        }
-        */
-
-        int max = (int) Math.floor((Math.sqrt((double) (8 * n + 12)) - 6) / 4);
-        y = 1;
-        while (y <= max) {
-            int a = -y * y;
-            x = y + 1;
-            while (true) {
-                k = a + 3 * x * x;
-                if (k <= n) {
-                    toggle(k);
-                } else {
-                    break;
-                }
-                x += 2;
-            }
-            y++;
-            a = -y * y;
-            x = y + 1;
-            while (true) {
-                k = a + 3 * x * x;
-                if (k <= n) {
-                    toggle(k);
-                } else {
-                    break;
-                }
-                x += 2;
-            }
-            y += 2;
         }
 
 

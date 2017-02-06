@@ -46,7 +46,7 @@ public class AppTest {
 		
 		System.out.println("\n" + a.getName() + " =====> " + primes.size());
 
-		primes.stream().forEach(p -> System.out.print(p + ", "));
+		//primes.stream().forEach(p -> System.out.print(p + ", "));
 
 		assertEquals(MUST_FOUND, primes.size());
 		/*
