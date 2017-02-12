@@ -44,7 +44,9 @@ public class AppTest {
 	private void testAlgorithm(Algorithm a) {
 		List<Integer> primes = a.execute(TEST_NUMBER);
 		
-		System.out.println(a.getName() + " =====> " + primes.size());
+		System.out.println("\n" + a.getName() + " =====> " + primes.size());
+
+		//primes.stream().forEach(p -> System.out.print(p + ", "));
 
 		assertEquals(MUST_FOUND, primes.size());
 		/*
