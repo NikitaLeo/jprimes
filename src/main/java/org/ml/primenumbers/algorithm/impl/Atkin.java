@@ -1,6 +1,5 @@
 package org.ml.primenumbers.algorithm.impl;
 
-import org.ml.primenumbers.algorithm.Algorithm;
 import org.ml.primenumbers.algorithm.BaseAlgorithm;
 
 import java.util.ArrayList;
@@ -12,10 +11,10 @@ import java.util.List;
 public class Atkin extends BaseAlgorithm {
 
     private static final String NAME = "Atkin2";
-    private int[] sieve;
+    private byte[] sieve;
 
     private void toggle(int k) {
-        sieve[k] = sieve[k] == 1 ? 0 : 1;
+        sieve[k] = sieve[k] == 1 ? (byte)0 : (byte)1;
     }
 
     @Override
@@ -24,7 +23,7 @@ public class Atkin extends BaseAlgorithm {
         int n = (int)count;
 
         List<Integer> primes = new ArrayList<>();
-        sieve = new int[n+1];
+        sieve = new byte[n+1];
 
         /*
             Init primes

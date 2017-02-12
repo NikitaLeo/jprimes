@@ -15,7 +15,7 @@ public class Eratosthenes extends BaseAlgorithm {
 		int mroot = (int)Math.floor(Math.sqrt((double)m));
 		
 		List<Integer> primes = new ArrayList<>();
-		int[] sieve = new int[m+1];
+		byte[] sieve = new byte[m+1];
 		// Initialise sieve
 		for (int i = 2; i <= m; i++) sieve[i] = 1;
 

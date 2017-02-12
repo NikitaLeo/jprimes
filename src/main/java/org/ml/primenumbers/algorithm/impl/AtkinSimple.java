@@ -11,10 +11,10 @@ import java.util.List;
  */
 public class AtkinSimple extends BaseAlgorithm {
 
-    private int[] sieve;
+    private byte[] sieve;
 
     private void toggle(int k) {
-        sieve[k] = sieve[k] == 1 ? 0 : 1;
+        sieve[k] = sieve[k] == 1 ? (byte)0 : (byte)1;
     }
     
     @Override
@@ -23,7 +23,7 @@ public class AtkinSimple extends BaseAlgorithm {
         int n = (int) count;
 
         List<Integer> primes = new ArrayList<>();
-        sieve = new int[n + 1];
+        sieve = new byte[n + 1];
 
         primes.add(2);
         primes.add(3);
