@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Result {
-	int count;
+	long count;
 	List<Integer> measures;
 	
-	public Result(int count) {
+	public Result(long count) {
 		this.count = count;
 		measures = new ArrayList<>();
 	}

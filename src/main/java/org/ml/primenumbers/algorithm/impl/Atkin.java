@@ -40,7 +40,7 @@ public class Atkin extends BaseAlgorithm {
 
         int max_x = (int)Math.floor( Math.sqrt(n) / 2 );
         int max_y = (int)Math.floor( Math.sqrt(n) );
-        System.out.println("max_y = " + max_y);
+        //System.out.println("max_y = " + max_y);
         int max = 0;
         /**
          *

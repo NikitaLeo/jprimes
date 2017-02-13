@@ -17,8 +17,8 @@ import org.ml.primenumbers.util.Notifier;
 
 public class PrimeNumbers implements Runnable {
 	
-	private int interval;
-	private int maximum;
+	private long interval;
+	private long maximum;
 	private int repeat;
 	private List<Result> results;
 	private List<Algorithm> algorithms;
@@ -27,7 +27,7 @@ public class PrimeNumbers implements Runnable {
 	private boolean stopAsap = false;
 	private boolean done = false;
 	
-    public PrimeNumbers(int interval, int maximum, int repeat) {
+    public PrimeNumbers(long interval, long maximum, int repeat) {
 		super();
 		this.interval = interval;
 		this.maximum = maximum;
@@ -47,9 +47,9 @@ public class PrimeNumbers implements Runnable {
     	done = false;
     	stopAsap = false;
     	results = new ArrayList<>();
-    	int numIterations = (maximum / interval) * repeat * algorithms.size();
+    	int numIterations = (int) ((maximum / interval) * repeat * algorithms.size());
     	int curIteration = 1;
-    	int count = interval;
+    	long count = (int) interval;
     	for (; count <= maximum; count += interval) {
     		Result result = new Result(count);
     		//System.out.println(count);

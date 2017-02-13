@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import javafx.util.converter.IntegerStringConverter;
 import org.ml.primenumbers.PrimeNumbers;
 import org.ml.primenumbers.util.AlgorithmFinder;
 import org.ml.primenumbers.util.Notifier;
@@ -56,10 +57,16 @@ public class FxApp extends Application {
     private BorderPane main;
     private BorderPane progressPane;
     // parameters
-    private Spinner<Integer> intervalValue;
-    private Spinner<Integer> maxValue;
+    private TextField intervalValue;
+    private TextField maxValue;
     private Spinner<Integer> repeatValue;
     private TextField outputFileNameField;
+    // int params
+
+    long intervalParam = 0;
+    long maxParam = 0;
+    int repeatParam = 0;
+
     // varia
     private Alert errorAlert;
     private Alert yesNoAlert;
@@ -118,7 +125,7 @@ public class FxApp extends Application {
 
         // file chooser
         outputFileNameField = addParameter(grid, "Output:", "output", 4, null);
-        Path currentPath = Paths.get("", "results.js");
+        Path currentPath = Paths.get("html", "results.js");
 
         outputFileNameField.setText(currentPath.toAbsolutePath().toString());
 
@@ -166,9 +173,9 @@ public class FxApp extends Application {
     }
 
 	private void validateParameters() {
-        Integer interval = intervalValue.getValue();
-        Integer max = maxValue.getValue();
-        Integer repeat = repeatValue.getValue();
+        long interval = Double.valueOf(intervalValue.getText()).longValue();
+        long max = Integer.valueOf(maxValue.getText()).longValue();
+        int repeat = repeatValue.getValue();
         String path = outputFileNameField.getText();
 
         if (max < interval) {
@@ -188,7 +195,7 @@ public class FxApp extends Application {
             return;
         }
 
-        Integer steps = max / interval;
+        int steps = (int) (max / interval);
         boolean runTest = true;
         if (steps > 100) {
             runTest = false;
@@ -199,6 +206,10 @@ public class FxApp extends Application {
             }
         }
 
+        intervalParam = interval;
+        maxParam = max;
+        repeatParam = repeat;
+
         if (runTest) {
             startTest();
         }
@@ -206,7 +217,7 @@ public class FxApp extends Application {
 
     private void startTest() {
 	    primeNumbers = null;
-        primeNumbers = new PrimeNumbers(intervalValue.getValue(), maxValue.getValue(), repeatValue.getValue());
+        primeNumbers = new PrimeNumbers(intervalParam, maxParam, repeatParam);
         //primeNumbers.setOnFinish(() -> Platform.runLater(() ->  onFinish()));
 
         for (AlgorithmItem ai : algorithms) {
@@ -265,26 +276,28 @@ public class FxApp extends Application {
     private void addParameters(Pane parent) {
 
         Label label = new Label("Interval:");
-        intervalValue = new Spinner<>();
-        intervalValue.setId("interval");
-        intervalValue.setEditable(true);
-        intervalValue.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, 1000000));
+        intervalValue = new TextField();
+        intervalValue.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter()));
         intervalValue.setTooltip(new Tooltip("Interval for test iterations"));
+        intervalValue.setText("1000000");
         GridPane.setConstraints(label, 0, 0);
         GridPane.setConstraints(intervalValue, 1, 0);
         parent.getChildren().addAll(label, intervalValue);
 
+
         Label label2 = new Label("Maximum:");
-        maxValue = new Spinner<>();
-        maxValue.setId("max");
-        maxValue.setEditable(true);
-        maxValue.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, Integer.MAX_VALUE, 10000000));
-        maxValue.setTooltip(new Tooltip("Maximum number of prime numbers to find during test"));
+
+        maxValue = new TextField();
+        maxValue.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter()));
+        maxValue.setTooltip(new Tooltip("Maximum number to find from"));
+        maxValue.setText("10000000");
         GridPane.setConstraints(label2, 0, 1);
         GridPane.setConstraints(maxValue, 1, 1);
         parent.getChildren().addAll(label2, maxValue);
 
+
         Label label3 = new Label("Repeat:");
+
         repeatValue = new Spinner<>();
         repeatValue.setId("step");
         //repeatValue.getEditor().setAlignment(Pos.CENTER_RIGHT);
@@ -293,6 +306,7 @@ public class FxApp extends Application {
         GridPane.setConstraints(label3, 0, 2);
         GridPane.setConstraints(repeatValue, 1, 2);
         parent.getChildren().addAll(label3, repeatValue);
+
 
     }
 
