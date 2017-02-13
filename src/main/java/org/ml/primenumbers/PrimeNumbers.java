@@ -1,8 +1,6 @@
 package org.ml.primenumbers;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -180,7 +178,7 @@ public class PrimeNumbers implements Runnable {
             file.renameTo(new File(""));
         }
 
-        FileWriter fileWriter = new FileWriter(outputFileName);
+        Writer fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
         fileWriter.write(app.exportToJS());
         fileWriter.flush();
         fileWriter.close();
