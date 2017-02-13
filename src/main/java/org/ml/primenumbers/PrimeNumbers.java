@@ -51,23 +51,25 @@ public class PrimeNumbers implements Runnable {
     	int curIteration = 1;
     	long count = (int) interval;
     	for (; count <= maximum; count += interval) {
-    		Result result = new Result(count);
+    		Result result = new Result(count, algorithms.size(), repeat);
     		//System.out.println(count);
-        	for (Algorithm a : algorithms) {
-        		long sum = 0;
-        		for (int k = 0; k < repeat; k++) {
-        			long start = System.currentTimeMillis();
-        			a.execute(count);
-        			long after = System.currentTimeMillis();
-        			sum += after - start;
+			for (int round = 0; round < repeat; round++) {
+        		long diff;
+        		int a = 0;
+				for (Algorithm algorithm : algorithms) {
+        			long start = System.nanoTime();
+        			algorithm.execute(count);
+        			long after = System.nanoTime();
+        			diff = (after - start);
 					notifyProgress(curIteration, numIterations);
         			curIteration += 1;
+        			result.setTime(a, round, diff);
         			if (stopAsap) {
         				return;
 					}
+					a++;
         		}
-        		int avg = (int)(sum / repeat);
-        		result.addTime(avg);
+
         	}
     		
     		results.add(result);
@@ -108,9 +110,9 @@ public class PrimeNumbers implements Runnable {
 		// Results
     	for (Result r : results) {
     		w.append(",");
-    		w.append("\n[" + r.count + "");
-    		for (Integer time : r.measures) {
-    			w.append("," + time.toString());
+    		w.append("\n[" + r.getCount() + "");
+    		for (int a = 0; a < r.getNumTests(); a++) {
+    			w.append("," + r.averageMsec(a));
     		}
     		w.append("]");
     	}

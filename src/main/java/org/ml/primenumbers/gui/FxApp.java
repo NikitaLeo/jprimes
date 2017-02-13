@@ -76,7 +76,12 @@ public class FxApp extends Application {
 
     private ExecutorService executor = Executors.newSingleThreadExecutor();
 
-	@Override
+    @Override
+    public void stop() throws Exception {
+        System.exit(0);
+    }
+
+    @Override
 	public void start(Stage primaryStage) throws Exception {
 
 		primaryStage.setTitle("Prime numbers algorithm tester");
