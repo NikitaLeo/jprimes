@@ -7,21 +7,20 @@ import java.util.List;
 
 public class Eratosthenes extends BaseAlgorithm {
 
-	private static final String NAME = "Eratosthenes";
+	private static final String NAME = "Eratosthenese sõel";
 	
-	public List<Integer> execute(long count) {
-		if (count > Integer.MAX_VALUE) throw new IllegalArgumentException();
-		int m = (int)count;
-		int mroot = (int)Math.floor(Math.sqrt((double)m));
-		
+	public List<Integer> execute(long limit) {
+		if (limit > Integer.MAX_VALUE) throw new IllegalArgumentException();
+		int N = (int)limit;
+		int root = (int)Math.floor(Math.sqrt((double)N));
 		List<Integer> primes = new ArrayList<>();
-		byte[] sieve = new byte[m+1];
-		// Initialise sieve
-		for (int i = 2; i <= m; i++) sieve[i] = 1;
+		byte[] sieve = new byte[N+1];
 
-		for (int i = 2; i <= mroot; i++) {
+		for (int i = 2; i <= N; i++) sieve[i] = 1;
+
+		for (int i = 2; i <= root; i++) {
 			if (sieve[i] == 1) {
-				for (int j = i*i; j <= m; j += i) {
+				for (int j = i*i; j <= N; j += i) {
 					sieve[j] = 0;
 				}
 			}
@@ -31,28 +30,6 @@ public class Eratosthenes extends BaseAlgorithm {
 				primes.add(i);
 			} 
 		}
-		/* JS copy
-	var sieve = [];
-	var primes = [];
-	for(var i=2; i<=m; i++){
-		sieve[i] = 1;	
-	}
-	var mroot = Math.sqrt(m)
-	for(var i=2; i<=mroot; i++){
-		if(sieve[i]==1){
-			for(var j=i*i; j<=m; j+=i){
-				sieve[j] = 0;
-			}
-	    }
-    }
-	for(var i=0; i<sieve.length; i++){
-		if(sieve[i]==1){
-			primes.push(i)
-		} 
-	}
-		 * 
-		 */
-		
 		return primes;
 	}
 
@@ -62,3 +39,20 @@ public class Eratosthenes extends BaseAlgorithm {
 	}
 
 }
+/*
+JS copy
+function eratosthenes(N){
+	var sieve = [];
+	var primes = [];
+	for(var i = 2; i <= N; i++) sieve[i] = 1;
+	var root = Math.floor(Math.sqrt(N));
+	for(var i = 2; i <= root; i++){
+		if(sieve[i] == 1){
+			for(var j = i*i; j <= N; j += i) sieve[j] = 0;
+	    }
+    }
+	for(var i = 0; i < sieve.length; i++){
+		if(sieve[i] == 1) primes.push(i);
+	}
+}
+ */

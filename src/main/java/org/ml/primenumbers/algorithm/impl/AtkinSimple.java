@@ -67,6 +67,6 @@ public class AtkinSimple extends BaseAlgorithm {
 
     @Override
     public String getName() {
-        return "Atkin";
+        return "Atkini sõel";
     }
 }

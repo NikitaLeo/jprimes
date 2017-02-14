@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Atkin extends BaseAlgorithm {
 
-    private static final String NAME = "Atkin2";
+    private static final String NAME = "Atkini sõel";
     private byte[] sieve;
 
     private boolean toggle(int k) {
@@ -22,94 +22,79 @@ public class Atkin extends BaseAlgorithm {
     }
 
     @Override
-    public List<Integer> execute(long count) {
-        if (count > Integer.MAX_VALUE) throw new IllegalArgumentException();
-        int n = (int)count;
+    public List<Integer> execute(long limit) {
+        if (limit > Integer.MAX_VALUE) throw new IllegalArgumentException();
+        int N = (int)limit;
 
         List<Integer> primes = new ArrayList<>();
-        sieve = new byte[n+1];
+        sieve = new byte[N+1];
 
 
         primes.add(2);
         primes.add(3);
 
-        for (int i = 0; i <= n; i++) {
+        for (int i = 0; i <= N; i++) {
             sieve[i] = 0;
         }
-        int x, y, k;
+        int x, y, a, b, d;
 
-        int max_x = (int)Math.floor( Math.sqrt(n) / 2 );
-        int max_y = (int)Math.floor( Math.sqrt(n) );
-        //System.out.println("max_y = " + max_y);
-        int max = 0;
         /**
-         *
-         * Find all pairs x, y where
-         * 4x*x + y*y = N
-         * and N mod 12 = 1 or 5
-         *
+         * Find all pairs (x,y) such that n mod 12 = 1 or 5 where n = 4x^2 + y^2
          */
-        x = 1;
-        while (x <= max_x) {
-            int a = 4 * x * x;
-
-            if (x % 3 == 0) {
-                for (y = 1; toggle(a + y * y); y += 6) ;
-                for (y = 5; toggle(a + y * y); y += 6) ;
-
-            } else {
-                for (y = 1; toggle(a + y * y); y += 2) ;
+        int max_x = (int)Math.floor( Math.sqrt(N) / 2 );
+        for(x = 1; x <= max_x; x++){
+            a = 4*x*x;
+            d = 2;
+            for(y = 1; true; y += d){
+                b = a + y*y;
+                if(b <= N) toggle(b); else break;
+                if(x%3 == 0) d = d == 2 ? 4 : 2;
             }
-            x++;
         }
-
-
-        max_x = (int) Math.floor( Math.sqrt(n / 3) );
 
         /**
          * Find all pairs (x,y) such that n mod 12 = 7 where n = 3x^2 + y^2
          */
-        for (x = 1; x <= max_x; x += 2) {
-            int a = 3 * x * x;
-
-            for (y = 2; toggle(a + y * y); y += 6) ;
-            for (y = 4; toggle(a + y * y); y += 6) ;
-
+        max_x = (int) Math.floor( Math.sqrt(N / 3) );
+        for(x = 1; x <= max_x; x += 2){
+            a = 3*x*x;
+            d = 4;
+            for(y = 2; true; y += d){
+                b = a + y*y;
+                if(b <= N) toggle(b); else break;
+                d = d == 2 ? 4 : 2;
+            }
         }
 
         /**
          * Find all pairs (x,y) such that n mod 12 = 11 and x > y where n = 3x^2 - y^2
          */
-        max_x = (int) Math.floor( (Math.sqrt(8 * n + 12) - 2) / 4 );
-        for (x = 1; x <= max_x; x++){
-            int a = 3 * x * x;
-            if (x % 2 == 0) {
-                for (y = 1; y < x ; y += 6) toggle(a - y * y);
-                for (y = 5; y < x ; y += 6) toggle(a - y * y);
-
-            } else {
-                for (y = 2; y < x ; y += 6) toggle(a - y * y);
-                for (y = 4; y < x ; y += 6) toggle(a - y * y);
+        int max_y = (int) Math.floor( (Math.sqrt(8 * N + 12) - 6) / 4 );
+        d = 2;
+        for(y = 1; y <= max_y; y += d){
+            a = -y*y;
+            for(x = y + 1; true; x += 2){
+                b = a + 3*x*x;
+                if(b <= N) toggle(b); else break;
             }
+            d = d == 2 ? 1 : 2;
         }
-
 
         /**
          * For all numbers n which can be divided by some square number set sieve[n] = 0
          */
-        max_x = (int) Math.floor(Math.sqrt(n));
-        int s, j, factor;
-        for (int i = 0; i <= max_x; i++) {
-            if (sieve[i] == 1) {
-                s = i * i;
-                j = s;
-                factor = 2;
-                for (j = s; j <= n; j += factor * s) {
+        int max = (int) Math.floor(Math.sqrt(N));
+        for(int i = 0; i <= max; i++){
+            if(sieve[i] == 1){
+                int s = i*i;
+                d = 2;
+                for(int j = s; j <= N; j += d*s){
                     sieve[j] = 0;
-                    factor = factor == 2 ? 4 : 2;
+                    d = d == 2 ? 4 : 2;
                 }
             }
         }
+
         for (int i = 0; i < sieve.length; i++) {
             if (sieve[i] == 1) {
                 primes.add(i);

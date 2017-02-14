@@ -9,21 +9,22 @@
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-      // Define the chart to be drawn.
       var data = new google.visualization.arrayToDataTable(result);
-      /*
-      data.addColumn('number', 'Element');
-      data.addColumn('number', 'Percentage');
-      */
-      //data.addRows(result.data);
-
-      // Instantiate and draw the chart.
-		var chart = new google.visualization.LineChart(document.getElementById('myPieChart'));
-		var options = {
-			width: 600,
+      var chart = new google.visualization.LineChart(document.getElementById('myPieChart'));
+		  var options = {
+			  width: 800,
+        height: 500,
+        vAxis : {
+          title : "Aeg (ms)"
+        },
+        hAxis : {
+          title: "Piir N",
+          minValue: 0,
+          format: 'short'
+        },
     		legend : {
     			position: 'bottom'  
-    		  }
+    		}
       }
       chart.draw(data, options)
     }
