@@ -56,12 +56,13 @@ public class PrimeNumbers implements Runnable {
         		int a = 0;
 				for (Algorithm algorithm : algorithms) {
         			long start = System.nanoTime();
-        			algorithm.execute(count);
+        			List<Integer> primes = algorithm.execute(count);
         			long after = System.nanoTime();
         			diff = (after - start);
 					notifyProgress(curIteration, numIterations);
         			curIteration += 1;
         			result.setTime(a, round, diff);
+        			result.setPrimeCount(primes.size());
         			if (stopAsap) {
         				return;
 					}
@@ -117,7 +118,22 @@ public class PrimeNumbers implements Runnable {
     	w.append("]");
     	return w.toString();
     }
-    
+
+	public void printResults() {
+		StringBuffer w = new StringBuffer();
+
+		// Results
+		for (Result r : results) {
+			w.append("Limit = ");
+			w.append(r.getCount());
+			w.append(", Found = ").append(r.getPrimeCount());
+			for (int a = 0; a < r.getNumTests(); a++) {
+				w.append(", Time = " + r.averageMsec(a) + " msec");
+			}
+		}
+		System.out.println(w.toString());
+	}
+
 	public static void main( String[] args ){
 		
 		String usage = "Usage:\n"
@@ -129,7 +145,7 @@ public class PrimeNumbers implements Runnable {
 			return;
 		}
 		
-		if (args.length < 5) {
+		if (args.length < 4) {
 			System.out.println("Number of parameters: " + args.length);
 			System.out.println(usage);
 			System.exit(1);
@@ -137,7 +153,7 @@ public class PrimeNumbers implements Runnable {
 		int arg1 = Integer.valueOf(args[0]);
 		int arg2 = Integer.valueOf(args[1]);
 		int arg3 = Integer.valueOf(args[2]);
-		String outputFileName = args[3];
+
 		PrimeNumbers app = new PrimeNumbers(arg1, arg2, arg3);
 		
 		//ClassLoader loader = app.getClass().getClassLoader();
@@ -145,7 +161,7 @@ public class PrimeNumbers implements Runnable {
 			String className = args[i];
 			try {
 				//Class<?> clazz = loader.loadClass(className);
-				Class<?> clazz = Class.forName("org.ml.primenumbers." + className);
+				Class<?> clazz = Class.forName("org.ml.primenumbers.algorithm.impl." + className);
 				Object obj = clazz.newInstance();
 				if (obj instanceof Algorithm) {
 					app.addAlgorithm((Algorithm)obj);
@@ -159,10 +175,13 @@ public class PrimeNumbers implements Runnable {
 		}
 		
 		app.run();
+		app.printResults();
 		
 		try {
-
-		    saveResults(outputFileName, app);
+			if (args.length > 4) {
+				String outputFileName = args[4];
+				saveResults(outputFileName, app);
+			}
 
 		} catch (IOException e) {
 			System.err.println("Failed to output results");		
@@ -183,6 +202,7 @@ public class PrimeNumbers implements Runnable {
         fileWriter.flush();
         fileWriter.close();
     }
+
 
 	public static String stampFile(File old) {
 		String name = old.getName();

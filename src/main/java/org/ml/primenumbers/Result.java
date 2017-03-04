@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Result {
 	private long count;
+	private int primeCount;
 	private int i = 0, j = 0;
 	private int numTests, repeat;
 	private long[][] series;
@@ -41,5 +42,13 @@ public class Result {
 
 	public int getNumTests() {
 		return numTests;
+	}
+
+	public int getPrimeCount() {
+		return primeCount;
+	}
+
+	public void setPrimeCount(int primeCount) {
+		this.primeCount = primeCount;
 	}
 }

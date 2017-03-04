@@ -38,7 +38,7 @@ public class Atkin extends BaseAlgorithm {
         }
         int x, y, a, b, d;
 
-        /**
+        /*
          * Find all pairs (x,y) such that n mod 12 = 1 or 5 where n = 4x^2 + y^2
          */
         int max_x = (int)Math.floor( Math.sqrt(N) / 2 );
@@ -52,7 +52,7 @@ public class Atkin extends BaseAlgorithm {
             }
         }
 
-        /**
+        /*
          * Find all pairs (x,y) such that n mod 12 = 7 where n = 3x^2 + y^2
          */
         max_x = (int) Math.floor( Math.sqrt(N / 3) );
@@ -66,7 +66,7 @@ public class Atkin extends BaseAlgorithm {
             }
         }
 
-        /**
+        /*
          * Find all pairs (x,y) such that n mod 12 = 11 and x > y where n = 3x^2 - y^2
          */
         int max_y = (int) Math.floor( (Math.sqrt(8 * N + 12) - 6) / 4 );
@@ -80,7 +80,7 @@ public class Atkin extends BaseAlgorithm {
             d = d == 2 ? 1 : 2;
         }
 
-        /**
+        /*
          * For all numbers n which can be divided by some square number set sieve[n] = 0
          */
         int max = (int) Math.floor(Math.sqrt(N));

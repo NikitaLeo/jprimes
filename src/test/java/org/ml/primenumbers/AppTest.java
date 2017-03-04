@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.ml.primenumbers.algorithm.Algorithm;
 import org.ml.primenumbers.algorithm.impl.Atkin;
 import org.ml.primenumbers.algorithm.impl.Eratosthenes;
+import org.ml.primenumbers.algorithm.impl.Segmented;
 import org.ml.primenumbers.algorithm.impl.TrialDivision;
 
 /**
@@ -29,7 +30,12 @@ public class AppTest {
 		testAlgorithm(new Eratosthenes());
 		
 	}
-	
+
+	@Test
+	public void testSegmented() {
+		testAlgorithm(new Segmented());
+	}
+
 	@Test
 	public void testTrialDivision() {
 		testAlgorithm(new TrialDivision());
