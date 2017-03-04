@@ -22,7 +22,7 @@ public class Atkin extends BaseAlgorithm {
     }
 
     @Override
-    public List<Integer> execute(long limit) {
+    public int execute(long limit) {
         if (limit > Integer.MAX_VALUE) throw new IllegalArgumentException();
         int N = (int)limit;
 
@@ -101,7 +101,7 @@ public class Atkin extends BaseAlgorithm {
             }
         }
 
-        return primes;
+        return primes.size();
 
     }
 

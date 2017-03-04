@@ -3,7 +3,10 @@ package org.ml.primenumbers.algorithm.impl;
 import org.ml.primenumbers.algorithm.BaseAlgorithm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by Nikita on 04.03.2017.
@@ -15,34 +18,60 @@ public class Segmented extends BaseAlgorithm {
     private byte[] sieve;
 
     @Override
-    public List<Integer> execute(long limit) {
+    public int execute(long limit) {
         if (limit > Integer.MAX_VALUE) throw new IllegalArgumentException();
         primes.clear();
         int N = (int)limit;
-        int segment = (int)Math.floor(Math.sqrt(N));
+        int segment = (int)Math.ceil(Math.sqrt(N));
         sieve = new byte[segment+1];
         next = new int[segment+1];
 
+        long seg1 = 0, seg2 = 0, seg3 = 0, seg4 = 0;
+        long time = 0;
+        int LENGTH = sieve.length;
+
         eratosthenes(segment);
-        for(int n = segment; n < N; n += segment) {
+        int[] segmentPrimes = new int[segment+1];
+        int primesCount = primes.size();
+
+        for (int n = segment; n < N; n += segment) {
+
+            // SEGMENT 1
+            time = System.currentTimeMillis();
+
             int start = n, end = n + segment;
             for(int i = 1; i <= segment ; i++) sieve[i] = 1;
             int root = (int) Math.floor(Math.sqrt(end));
-            for(int i = 0; primes.get(i) <= root; i++){
+
+            seg1 += System.currentTimeMillis() - time;
+
+            // SEGMENT 2
+            time = System.currentTimeMillis();
+
+            for (int i = 0; i < primes.size() && primes.get(i) <= root; i++){
                 int p = primes.get(i), j;
                 if (p*p <= start) j = next[i]; else j = p*p - start;
                 for (; j <= segment; j += p ) sieve[j] = 0;
                 next[i] = j - segment;
             }
-            ArrayList<Integer> segmentPrimes = new ArrayList<>();
-            for(int i = 1; i < sieve.length && start+i < N; i++) {
-                if(sieve[i] == 1) segmentPrimes.add(start + i);
+
+            seg2 += System.currentTimeMillis() - time;
+
+            // SEGMENT 3
+            time = System.currentTimeMillis();
+
+            for (int i = 1; i < LENGTH && start+i < N; i++) {
+                if (sieve[i] == 1) primesCount += 1;
             }
-            primes.addAll(segmentPrimes);
+            seg3 += System.currentTimeMillis() - time;
         }
 
+        System.out.println("segment 1 :" + seg1);
+        System.out.println("segment 2 :" + seg2);
+        System.out.println("segment 3 :" + seg3);
+        System.out.println("segment 4 :" + seg4);
 
-        return primes;
+        return primesCount;
     }
 
     /**

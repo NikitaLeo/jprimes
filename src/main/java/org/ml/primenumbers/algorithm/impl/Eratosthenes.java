@@ -9,7 +9,7 @@ public class Eratosthenes extends BaseAlgorithm {
 
 	private static final String NAME = "Eratosthenese sõel";
 	
-	public List<Integer> execute(long limit) {
+	public int execute(long limit) {
 		if (limit > Integer.MAX_VALUE) throw new IllegalArgumentException();
 		int N = (int)limit;
 		int root = (int)Math.floor(Math.sqrt((double)N));
@@ -30,7 +30,7 @@ public class Eratosthenes extends BaseAlgorithm {
 				primes.add(i);
 			} 
 		}
-		return primes;
+		return primes.size();
 	}
 
 	@Override

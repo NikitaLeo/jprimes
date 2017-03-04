@@ -48,13 +48,13 @@ public class AppTest {
 	}
 
 	private void testAlgorithm(Algorithm a) {
-		List<Integer> primes = a.execute(TEST_NUMBER);
+		int primes = a.execute(TEST_NUMBER);
 		
-		System.out.println("\n" + a.getName() + " =====> " + primes.size());
+		System.out.println("\n" + a.getName() + " =====> " + primes);
 
 		//primes.stream().forEach(p -> System.out.print(p + ", "));
 
-		assertEquals(MUST_FOUND, primes.size());
+		assertEquals(MUST_FOUND, primes);
 		/*
 		assertEquals(correct.size(), primes.size());
 		

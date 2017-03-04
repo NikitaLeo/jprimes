@@ -56,13 +56,13 @@ public class PrimeNumbers implements Runnable {
         		int a = 0;
 				for (Algorithm algorithm : algorithms) {
         			long start = System.nanoTime();
-        			List<Integer> primes = algorithm.execute(count);
+        			int primes = algorithm.execute(count);
         			long after = System.nanoTime();
         			diff = (after - start);
 					notifyProgress(curIteration, numIterations);
         			curIteration += 1;
         			result.setTime(a, round, diff);
-        			result.setPrimeCount(primes.size());
+        			result.setPrimeCount(primes);
         			if (stopAsap) {
         				return;
 					}
@@ -150,11 +150,11 @@ public class PrimeNumbers implements Runnable {
 			System.out.println(usage);
 			System.exit(1);
 		}
-		int arg1 = Integer.valueOf(args[0]);
-		int arg2 = Integer.valueOf(args[1]);
-		int arg3 = Integer.valueOf(args[2]);
+		long interval = Long.valueOf(args[0]);
+		long maxSize = Long.valueOf(args[1]);
+		int repeat = Integer.valueOf(args[2]);
 
-		PrimeNumbers app = new PrimeNumbers(arg1, arg2, arg3);
+		PrimeNumbers app = new PrimeNumbers(interval, maxSize, repeat);
 		
 		//ClassLoader loader = app.getClass().getClassLoader();
 		for (int i = 4; i < args.length; i++) {
