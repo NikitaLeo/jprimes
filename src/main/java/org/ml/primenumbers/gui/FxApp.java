@@ -43,9 +43,9 @@ public class FxApp extends Application {
     private Notifier onListReady = () -> {
 
         List<AlgorithmItem> list = algorithmFinder.getList()
-                        .stream()
-                        .map((a) -> new AlgorithmItem(a))
-                        .collect(Collectors.toList());
+                .stream()
+                .map((a) -> new AlgorithmItem(a))
+                .collect(Collectors.toList());
         list.sort((o1, o2) -> o1.getAlgorithm().getName().compareTo(o2.getAlgorithm().getName()));
         algorithms.clear();
         algorithms.addAll(list);
@@ -82,13 +82,13 @@ public class FxApp extends Application {
     }
 
     @Override
-	public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception {
 
-		primaryStage.setTitle("Prime numbers algorithm tester");
+        primaryStage.setTitle("Prime numbers algorithm tester");
 
-		stage = primaryStage;
+        stage = primaryStage;
 
-		main = new BorderPane();
+        main = new BorderPane();
         main.setPadding(new Insets(10, 10, 10, 10));
 
         algorithmFinder = new AlgorithmFinder(onListReady);
@@ -166,10 +166,10 @@ public class FxApp extends Application {
         primaryStage.show();
 
         new Thread(algorithmFinder).start();
-	}
+    }
 
-	private void setupAlerts() {
-	    errorAlert = new Alert(Alert.AlertType.ERROR);
+    private void setupAlerts() {
+        errorAlert = new Alert(Alert.AlertType.ERROR);
         yesNoAlert = new Alert(Alert.AlertType.WARNING);
         yesNoAlert.getButtonTypes().clear();
         yesNoAlert.getButtonTypes().addAll(ButtonType.YES, ButtonType.NO);
@@ -177,7 +177,7 @@ public class FxApp extends Application {
         successAlert = new Alert(Alert.AlertType.INFORMATION);
     }
 
-	private void validateParameters() {
+    private void validateParameters() {
         long interval = Double.valueOf(intervalValue.getText()).longValue();
         long max = Integer.valueOf(maxValue.getText()).longValue();
         int repeat = repeatValue.getValue();
@@ -220,8 +220,11 @@ public class FxApp extends Application {
         }
     }
 
+    /**
+     * Start prime numbers generation
+     */
     private void startTest() {
-	    primeNumbers = null;
+        primeNumbers = null;
         primeNumbers = new PrimeNumbers(intervalParam, maxParam, repeatParam);
         //primeNumbers.setOnFinish(() -> Platform.runLater(() ->  onFinish()));
 
@@ -234,16 +237,16 @@ public class FxApp extends Application {
         // change scene
         mainScene.setRoot(progressPane);
 
-        // TODO: rewrite with executorService, callbacks and Callable<Result> ?
         executor.submit(() -> {
             primeNumbers.run();
-            Platform.runLater(() ->  onFinish());
+            Platform.runLater(() -> onFinish());
         });
 
-        //primeThread = new Thread(primeNumbers, "primenumbers-thread");
-        //primeThread.start();
     }
 
+    /**
+     * On prime numbers finished or interrupted
+     */
     private void onFinish() {
         mainScene.setRoot(main);
         if (primeNumbers.isDone()) {
@@ -316,10 +319,10 @@ public class FxApp extends Application {
     }
 
     private void createProgressPane() {
-	    progressPane = new BorderPane();
-	    progressPane.setPadding(new Insets(10, 10, 10, 10));
+        progressPane = new BorderPane();
+        progressPane.setPadding(new Insets(10, 10, 10, 10));
 
-	    // progress bar
+        // progress bar
         ProgressBar progressBar = new ProgressBar();
         progressBar.setPrefWidth(100);
         progressPane.setCenter(progressBar);
