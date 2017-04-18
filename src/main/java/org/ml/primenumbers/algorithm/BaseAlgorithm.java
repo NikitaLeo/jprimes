@@ -8,4 +8,6 @@ public abstract class BaseAlgorithm implements Algorithm {
     public String toString() {
         return getName();
     }
+
+
 }

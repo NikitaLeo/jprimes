@@ -7,10 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.ml.primenumbers.algorithm.Algorithm;
-import org.ml.primenumbers.algorithm.impl.Atkin;
-import org.ml.primenumbers.algorithm.impl.Eratosthenes;
-import org.ml.primenumbers.algorithm.impl.Segmented;
-import org.ml.primenumbers.algorithm.impl.TrialDivision;
+import org.ml.primenumbers.algorithm.impl.*;
 
 /**
  * Unit test for simple App.
@@ -25,27 +22,6 @@ public class AppTest {
 
 	}
 	
-	@Test
-	public void testEratosthenes() {
-		testAlgorithm(new Eratosthenes());
-		
-	}
-
-	@Test
-	public void testSegmented() {
-		testAlgorithm(new Segmented());
-	}
-
-	@Test
-	public void testTrialDivision() {
-		testAlgorithm(new TrialDivision());
-	}
-
-
-	@Test
-	public void testAtkins() {
-		testAlgorithm(new Atkin());
-	}
 
 	private void testAlgorithm(Algorithm a) {
 		List<Integer> primes = a.execute(TEST_NUMBER);
@@ -64,6 +40,31 @@ public class AppTest {
 		}
 		*/
 	}
-	
 
+	@Test
+	public void testAll() {
+		Class<?>[] all = {
+				/*
+				TrialDivision.class,
+				Atkin.class,
+				Eratosthenes.class,
+				Segmented.class,*/
+				FullWheel3.class,
+				ReducedWheel3.class
+		};
+
+		for (Class<?> clazz : all) {
+			try {
+				Object obj = clazz.newInstance();
+				if (obj instanceof Algorithm) {
+					Algorithm a = (Algorithm) obj;
+					testAlgorithm(a);
+				}
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

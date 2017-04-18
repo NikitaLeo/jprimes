@@ -100,9 +100,7 @@ public class Atkin extends BaseAlgorithm {
                 primes.add(i);
             }
         }
-
         return primes;
-
     }
 
     @Override

@@ -50,6 +50,12 @@
 					<mainClass>org.ml.primenumbers.PrimeNumbers</mainClass>
 					<arguments>
 						<argument>-gui</argument>
+						<!--
+						<argument>100000</argument>
+						<argument>100000</argument>
+						<argument>1</argument>
+						<argument>ReducedWheel3</argument>
+						-->
 					</arguments>
 				</configuration>
 			</plugin>

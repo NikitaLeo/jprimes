@@ -13,6 +13,7 @@ public class TrialDivision extends BaseAlgorithm {
 		if (limit > Integer.MAX_VALUE) throw new IllegalArgumentException();
 		int N = (int)limit;
 
+
 		List<Integer> primes = new ArrayList<>();
 		for (int n = 2; n <= N; n++) {
 			boolean isPrime = true;

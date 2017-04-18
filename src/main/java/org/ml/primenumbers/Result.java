@@ -1,6 +1,7 @@
 package org.ml.primenumbers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,6 +30,24 @@ public class Result {
 			avg += series[testNumber][i] / repeat;
 		}
 		return Math.round(avg);
+	}
+
+	/**
+	 * Return median of tests in msec
+	 * @param testNumber
+	 * @return
+	 */
+	public long median(int testNumber) {
+		long[] arr = series[testNumber];
+		Arrays.sort(arr);
+		long median;
+		if (repeat%2 == 0){
+			median = (arr[repeat/2] + arr[repeat/2-1]) / 2;
+		} else {
+			median = arr[repeat/2];
+		}
+
+		return median / 1000000;
 	}
 
 	public long averageMsec(int testNumber) {

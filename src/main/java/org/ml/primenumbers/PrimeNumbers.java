@@ -111,7 +111,7 @@ public class PrimeNumbers implements Runnable {
     		w.append(",");
     		w.append("\n[" + r.getCount() + "");
     		for (int a = 0; a < r.getNumTests(); a++) {
-    			w.append("," + r.averageMsec(a));
+    			w.append("," + r.median(a));
     		}
     		w.append("]");
     	}
@@ -137,7 +137,7 @@ public class PrimeNumbers implements Runnable {
 	public static void main( String[] args ){
 		
 		String usage = "Usage:\n"
-				+ "app <interval> <max> <repeat> <output> <algorithms...>";
+				+ "app <interval> <max> <repeat> <algorithms...>";
 		
 		if (args.length > 0 && args[0].equals("-gui")) {
 			
@@ -157,7 +157,7 @@ public class PrimeNumbers implements Runnable {
 		PrimeNumbers app = new PrimeNumbers(arg1, arg2, arg3);
 		
 		//ClassLoader loader = app.getClass().getClassLoader();
-		for (int i = 4; i < args.length; i++) {
+		for (int i = 3; i < args.length; i++) {
 			String className = args[i];
 			try {
 				//Class<?> clazz = loader.loadClass(className);
@@ -176,17 +176,18 @@ public class PrimeNumbers implements Runnable {
 		
 		app.run();
 		app.printResults();
-		
+
+		/*
 		try {
 			if (args.length > 4) {
-				String outputFileName = args[4];
+				String outputFileName = args[3];
 				saveResults(outputFileName, app);
 			}
 
 		} catch (IOException e) {
 			System.err.println("Failed to output results");		
 		}
-		
+		*/
 
     }
 

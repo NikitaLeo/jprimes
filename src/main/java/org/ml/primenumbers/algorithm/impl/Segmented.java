@@ -45,10 +45,6 @@ public class Segmented extends BaseAlgorithm {
         return primes;
     }
 
-    /**
-     * Finds primes in first segment
-     * @param N
-     */
     private void eratosthenes(int N) {
         for (int i = 2; i <= N; i++) sieve[i] = 1;
         int root = (int) Math.floor(Math.sqrt(N));
