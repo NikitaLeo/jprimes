@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -46,7 +47,7 @@ public class FxApp extends Application {
                 .stream()
                 .map((a) -> new AlgorithmItem(a))
                 .collect(Collectors.toList());
-        list.sort((o1, o2) -> o1.getAlgorithm().getName().compareTo(o2.getAlgorithm().getName()));
+        list.sort(Comparator.comparing(o -> o.getAlgorithm().getName()));
         algorithms.clear();
         algorithms.addAll(list);
     };
