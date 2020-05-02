@@ -31,7 +31,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-//@SuppressWarnings("restriction")
+@SuppressWarnings("restriction")
 public class FxApp extends Application {
 
     private static final String INTERVAL_OVER_MAX = "Maximum cannot be less than interval";
@@ -45,9 +45,9 @@ public class FxApp extends Application {
 
         List<AlgorithmItem> list = algorithmFinder.getList()
                 .stream()
-                .map((a) -> new AlgorithmItem(a))
+                .map(AlgorithmItem::new)
+                .sorted(Comparator.comparing(o -> o.getAlgorithm().getName()))
                 .collect(Collectors.toList());
-        list.sort(Comparator.comparing(o -> o.getAlgorithm().getName()));
         algorithms.clear();
         algorithms.addAll(list);
     };
@@ -78,12 +78,12 @@ public class FxApp extends Application {
     private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
-    public void stop() throws Exception {
+    public void stop() {
         System.exit(0);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         primaryStage.setTitle("Prime numbers algorithm tester");
 
@@ -103,9 +103,7 @@ public class FxApp extends Application {
         buttons.setAlignment(Pos.TOP_RIGHT);
         //buttons.setPadding(new Insets(5, 5, 5, 5));
         Button generate = new Button("Generate");
-        generate.setOnAction((ActionEvent evt) -> {
-            validateParameters();
-        });
+        generate.setOnAction((ActionEvent evt) -> validateParameters());
         buttons.getChildren().add(generate);
 
 
@@ -240,7 +238,7 @@ public class FxApp extends Application {
 
         executor.submit(() -> {
             primeNumbers.run();
-            Platform.runLater(() -> onFinish());
+            Platform.runLater(this::onFinish);
         });
 
     }
@@ -286,7 +284,7 @@ public class FxApp extends Application {
 
         Label label = new Label("Interval:");
         intervalValue = new TextField();
-        intervalValue.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter()));
+        intervalValue.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
         intervalValue.setTooltip(new Tooltip("Interval for test iterations"));
         intervalValue.setText("1000000");
         GridPane.setConstraints(label, 0, 0);
@@ -297,7 +295,7 @@ public class FxApp extends Application {
         Label label2 = new Label("Maximum:");
 
         maxValue = new TextField();
-        maxValue.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter()));
+        maxValue.setTextFormatter(new TextFormatter<>(new IntegerStringConverter()));
         maxValue.setTooltip(new Tooltip("Maximum number to find from"));
         maxValue.setText("10000000");
         GridPane.setConstraints(label2, 0, 1);
