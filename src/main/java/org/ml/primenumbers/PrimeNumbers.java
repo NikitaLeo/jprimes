@@ -1,6 +1,7 @@
 package org.ml.primenumbers;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,9 +16,9 @@ import org.ml.primenumbers.util.Notifier;
 
 public class PrimeNumbers implements Runnable {
 	
-	private long interval;
-	private long maximum;
-	private int repeat;
+	private final long interval;
+	private final long maximum;
+	private final int repeat;
 	private List<Result> results;
 	private List<Algorithm> algorithms;
 	private DoubleConsumer progress = null;
@@ -96,12 +97,12 @@ public class PrimeNumbers implements Runnable {
     }
 
     public String exportToJS() {
-    	StringBuffer w = new StringBuffer();
+    	StringBuilder w = new StringBuilder();
     	w.append("var result = [\n");
 		
     	// Columns
     	w.append("[\"Limit\",");
-		List<String> names = algorithms.stream().map(a -> a.getName()).collect(Collectors.toList());
+		List<String> names = algorithms.stream().map(Algorithm::getName).collect(Collectors.toList());
 		w.append(Utils.join(names, ","));
 		
 		w.append("]");
@@ -111,7 +112,7 @@ public class PrimeNumbers implements Runnable {
     		w.append(",");
     		w.append("\n[" + r.getCount() + "");
     		for (int a = 0; a < r.getNumTests(); a++) {
-    			w.append("," + r.median(a));
+    			w.append(",").append(r.median(a));
     		}
     		w.append("]");
     	}
@@ -120,7 +121,7 @@ public class PrimeNumbers implements Runnable {
     }
 
 	public void printResults() {
-		StringBuffer w = new StringBuffer();
+		StringBuilder w = new StringBuilder();
 
 		// Results
 		for (Result r : results) {
@@ -128,7 +129,7 @@ public class PrimeNumbers implements Runnable {
 			w.append(r.getCount());
 			w.append(", Found = ").append(r.getPrimeCount());
 			for (int a = 0; a < r.getNumTests(); a++) {
-				w.append(", Time = " + r.averageMsec(a) + " msec");
+				w.append(", Time = ").append(r.averageMsec(a)).append(" msec");
 			}
 		}
 		System.out.println(w.toString());
@@ -150,9 +151,9 @@ public class PrimeNumbers implements Runnable {
 			System.out.println(usage);
 			System.exit(1);
 		}
-		int arg1 = Integer.valueOf(args[0]);
-		int arg2 = Integer.valueOf(args[1]);
-		int arg3 = Integer.valueOf(args[2]);
+		int arg1 = Integer.parseInt(args[0]);
+		int arg2 = Integer.parseInt(args[1]);
+		int arg3 = Integer.parseInt(args[2]);
 
 		PrimeNumbers app = new PrimeNumbers(arg1, arg2, arg3);
 		
@@ -162,7 +163,7 @@ public class PrimeNumbers implements Runnable {
 			try {
 				//Class<?> clazz = loader.loadClass(className);
 				Class<?> clazz = Class.forName("org.ml.primenumbers.algorithm.impl." + className);
-				Object obj = clazz.newInstance();
+				Object obj = clazz.getDeclaredConstructor().newInstance();
 				if (obj instanceof Algorithm) {
 					app.addAlgorithm((Algorithm)obj);
 				} else {
@@ -198,7 +199,7 @@ public class PrimeNumbers implements Runnable {
             file.renameTo(new File(""));
         }
 
-        Writer fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
+        Writer fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
         fileWriter.write(app.exportToJS());
         fileWriter.flush();
         fileWriter.close();

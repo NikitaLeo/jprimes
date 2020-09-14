@@ -33,7 +33,7 @@ public class AlgorithmFinder implements Runnable {
         Set<Class<? extends Algorithm>> classes = reflections.getSubTypesOf(Algorithm.class);
         for (Class<? extends Algorithm> clazz : classes) {
             try {
-                Algorithm obj = clazz.newInstance();
+                Algorithm obj = clazz.getDeclaredConstructor().newInstance();
                 algorithms.add(obj);
             } catch (Exception e) {
                 // skip

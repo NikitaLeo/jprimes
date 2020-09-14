@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.DoubleConsumer;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("restriction")
@@ -41,6 +42,18 @@ public class FxApp extends Application {
     private AlgorithmFinder algorithmFinder;
     private ObservableList<AlgorithmItem> algorithms = FXCollections.observableArrayList();
 
+    private FileChooser fileChooser;
+    private Stage stage;
+    private Scene mainScene;
+    private BorderPane main;
+    private BorderPane progressPane;
+    private ProgressBar progressBar;
+    // parameters
+    private TextField intervalValue;
+    private TextField maxValue;
+    private Spinner<Integer> repeatValue;
+    private TextField outputFileNameField;
+
     private Notifier onListReady = () -> {
 
         List<AlgorithmItem> list = algorithmFinder.getList()
@@ -52,16 +65,10 @@ public class FxApp extends Application {
         algorithms.addAll(list);
     };
 
-    private FileChooser fileChooser;
-    private Stage stage;
-    private Scene mainScene;
-    private BorderPane main;
-    private BorderPane progressPane;
-    // parameters
-    private TextField intervalValue;
-    private TextField maxValue;
-    private Spinner<Integer> repeatValue;
-    private TextField outputFileNameField;
+    private final DoubleConsumer progressListener = (double progress) -> {
+        if (progressBar != null) progressBar.setProgress(progress);
+    };
+
     // int params
 
     long intervalParam = 0;
@@ -75,7 +82,7 @@ public class FxApp extends Application {
 
     private PrimeNumbers primeNumbers;
 
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
     public void stop() {
@@ -235,6 +242,8 @@ public class FxApp extends Application {
 
         // change scene
         mainScene.setRoot(progressPane);
+        progressBar.setProgress(0);
+        primeNumbers.setProgress(progressListener);
 
         executor.submit(() -> {
             primeNumbers.run();
@@ -322,8 +331,9 @@ public class FxApp extends Application {
         progressPane.setPadding(new Insets(10, 10, 10, 10));
 
         // progress bar
-        ProgressBar progressBar = new ProgressBar();
-        progressBar.setPrefWidth(100);
+        progressBar = new ProgressBar();
+        progressBar.setMaxWidth(Double.MAX_VALUE);
+
         progressPane.setCenter(progressBar);
 
         // cancel
